@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ApiResource]
 class Message
@@ -95,7 +96,6 @@ class Message
         return $this->timestamp;
     }
 
-    #[ORM\PrePersist]
     public function setTimestamp(\DateTimeImmutable $createdAt): static
     {
         $this->timestamp = $createdAt;
