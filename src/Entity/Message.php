@@ -11,7 +11,9 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    description: 'Messages sent between people and not only.'
+)]
 class Message
 {
     #[ORM\Id]
@@ -20,21 +22,39 @@ class Message
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id;
 
+    /**
+     * A person who sends the message
+     */
     #[ORM\Column(length: 255)]
     private ?string $sender = null;
 
+    /**
+     * A person who receives the message
+     */
     #[ORM\Column(length: 255)]
     private ?string $recipient = null;
 
+    /**
+     * Subject of the message
+     */
     #[ORM\Column(length: 255)]
     private ?string $subject = null;
 
+    /**
+     * Body of the message
+     */
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
+    /**
+     * Timestamp of the message. It is automaticaly set when the message is created.
+     */
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $timestamp = null;
 
+    /**
+     * Status of the message where 0 means removed and 1 means visible
+     */
     #[ORM\Column]
     private ?int $status = null;
 
