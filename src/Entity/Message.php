@@ -96,13 +96,6 @@ class Message
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeImmutable $createdAt): static
-    {
-        $this->timestamp = $createdAt;
-
-        return $this;
-    }
-
     #[ORM\PrePersist]
     public function setTimestampValue()
     {
