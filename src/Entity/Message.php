@@ -6,16 +6,18 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ApiResource]
 class Message
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
 
     #[ORM\Column(length: 255)]
     private ?string $sender = null;
@@ -29,18 +31,13 @@ class Message
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $timestamp = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $timestamp = null;
 
     #[ORM\Column]
     private ?int $status = null;
 
-    public function __construct()
-    {
-        $this->id = Uuid::uuid4();
-    }
-
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -93,16 +90,23 @@ class Message
         return $this;
     }
 
-    public function getTimestamp(): ?\DateTimeInterface
+    public function getTimestamp(): ?\DateTimeImmutable
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): static
+    #[ORM\PrePersist]
+    public function setTimestamp(\DateTimeImmutable $createdAt): static
     {
-        $this->timestamp = $timestamp;
+        $this->timestamp = $createdAt;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setTimestampValue()
+    {
+        $this->timestamp = new \DateTimeImmutable();
     }
 
     public function getStatus(): ?int
