@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Delete;
@@ -14,6 +16,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
@@ -25,8 +28,10 @@ use Symfony\Component\Uid\Uuid;
         new Post(),
         new Put(),
         new Delete()
-    ]
+    ],
+    paginationItemsPerPage: 8
 )]
+#[ApiFilter(NumericFilter::class, properties: ['status'])]
 class Message
 {
     #[ORM\Id]
@@ -39,24 +44,46 @@ class Message
      * A person who sends the message
      */
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 100,
+        minMessage: "Field must be at least 3 characters long",
+        maxMessage: "Field must be maximum 100 characters long",
+    )]
     private ?string $sender = null;
 
     /**
      * A person who receives the message
      */
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 100,
+        minMessage: "Field must be at least 3 characters long",
+        maxMessage: "Field must be maximum 100 characters long",
+    )]
     private ?string $recipient = null;
 
     /**
      * Subject of the message
      */
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 200,
+        minMessage: "Field must be at least 3 characters long",
+        maxMessage: "Field must be maximum 200 characters long",
+    )]
     private ?string $subject = null;
 
     /**
      * Body of the message
      */
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $content = null;
 
     /**
@@ -69,6 +96,10 @@ class Message
      * Status of the message where 0 means removed and 1 means visible
      */
     #[ORM\Column]
+    #[Assert\Choice(
+        choices: [0, 1],
+        message: "The value must be either 0 or 1"
+    )]
     private ?int $status = null;
 
     public function getId(): ?Uuid
