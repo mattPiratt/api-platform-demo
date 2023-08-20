@@ -5,7 +5,6 @@ This is a demo application, showing the possibilities of using Symfony 6 + Platf
 ## Prerequirements
 
 - Docker desktop v.4.x (engine 20)
-- NPM v.9
 
 ## How to setup
 
