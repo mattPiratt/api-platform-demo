@@ -20,9 +20,8 @@ Build docker images and then start services
 
 ```sh
 docker compose build --no-cache --pull
-SERVER_NAME="app.localhost" docker compose up --wait -d
 
-HTTP_PORT=8000 SERVER_NAME="app.localhost" docker compose up --wait -d
+SERVER_NAME="app.localhost" docker compose up --wait -d
 ```
 
 Create Sqlite DB schema and load example data
