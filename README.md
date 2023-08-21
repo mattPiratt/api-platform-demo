@@ -24,25 +24,10 @@ docker compose build --no-cache --pull
 SERVER_NAME="app.localhost" docker compose up --wait -d
 ```
 
-Create Sqlite DB schema and load example data
+In the background, Docker compose project builds Symfony/API and Vue.js appliscations.
+Than, it created DB schema and loads example data into the DB.
 
-```sh
-docker exec -it sf-api-php-1 bin/console doctrine:fixtures:load -n
-```
-
-Now setup frontend API CLient Single Page Application. Enter application directory and instaling node packages
-
-```sh
-docker exec -it --workdir /srv/app/vueapp/ sf-api-php-1 npm i
-```
-
-Run the Client SPA
-
-```sh
-docker exec -it --workdir /srv/app/vueapp/ sf-api-php-1 npm run dev
-```
-
-Finaly open in the internet browser:
+Now, open the internet browser:
 
 `https://app.localhost/api` - to see Swagger API panel
 

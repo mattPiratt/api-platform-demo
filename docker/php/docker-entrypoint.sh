@@ -55,6 +55,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 
 		if [ "$( find ./migrations -iname '*.php' -print -quit )" ]; then
 			bin/console doctrine:migrations:migrate --no-interaction
+			bin/console doctrine:fixtures:load -n
 		fi
 	fi
 

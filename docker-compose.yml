@@ -6,9 +6,6 @@ services:
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php
-    ports:
-      # Vue.js app
-      - "5173:5173"
     healthcheck:
       interval: 10s
       timeout: 3s
@@ -53,6 +50,18 @@ services:
         published: ${HTTP3_PORT:-443}
         protocol: udp
 
+  app_vue:
+    image: ${IMAGES_PREFIX:-}sf-api-vue
+    # depends_on:
+    #   - php
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-localhost}, localhost:5173
+    restart: unless-stopped
+    volumes:
+      - vueapp:/srv/app/vueapp/
+    ports:
+      - "5173:5173"
+
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
@@ -61,5 +70,6 @@ volumes:
   php_socket:
   caddy_data:
   caddy_config:
+  vueapp:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###

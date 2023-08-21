@@ -27,6 +27,14 @@ services:
     volumes:
       - ./public:/srv/app/public:ro
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+
+  app_vue:
+    command: [ "npm", "run", "dev"]
+    build:
+      context: .
+      target: app_vue
+    volumes:
+      - ./vueapp:/srv/app/vueapp
     environment:
       MERCURE_EXTRA_DIRECTIVES: demo
 
