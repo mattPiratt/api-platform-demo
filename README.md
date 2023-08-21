@@ -42,8 +42,11 @@ Run the Client SPA
 docker exec -it --workdir /srv/app/vueapp/ sf-api-php-1 npm run dev
 ```
 
-Finaly open in the internet browser
-`http://localhost:5173/messages`
+Finaly open in the internet browser:
+
+`https://app.localhost/api` - to see Swagger API panel
+
+`http://localhost:5173/messages` - to see Vue.js client
 
 ## How this API server was build from scratch (set of commands)
 
