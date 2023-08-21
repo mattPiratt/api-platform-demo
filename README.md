@@ -27,8 +27,6 @@ SERVER_NAME="app.localhost" docker compose up --wait -d
 Create Sqlite DB schema and load example data
 
 ```sh
-docker exec -it sf-api-php-1 bin/console doctrine:migrations:migrate -n
-
 docker exec -it sf-api-php-1 bin/console doctrine:fixtures:load -n
 ```
 

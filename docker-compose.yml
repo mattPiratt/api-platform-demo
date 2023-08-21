@@ -6,6 +6,9 @@ services:
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php
+    ports:
+      # Vue.js app
+      - "5173:5173"
     healthcheck:
       interval: 10s
       timeout: 3s
