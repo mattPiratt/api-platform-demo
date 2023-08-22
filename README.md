@@ -1,6 +1,6 @@
 # API Platform + Vue.js client demo app
 
-This is a demo application, showing the possibilities of using Symfony 6 + Platform 3 API ( OpenAPI & Swagger & JSON+LD with Hydra & View.js SPA client ).
+This is a demo application, showing the possibilities of using Symfony 6 + Platform 3 API ( OpenAPI & Swagger & JSON+LD with Hydra & Vue.js SPA client ).
 
 ## Prerequirements
 
